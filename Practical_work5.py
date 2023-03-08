@@ -5,7 +5,7 @@ class People:
         self.__name = name
         self.__age = age
         self.__orientation = orientation
-        People.__people[name] = self
+        People.__people[name.lower()] = self
 
     def __setattr__(self, key, value):  # Function for checking user data
         if key in ['_People__name', '_People__age', '_People__orientation']:
@@ -40,17 +40,60 @@ class People:
 
     @staticmethod
     def show_people():
-        print(*People.__people)
+        if len(People.__people) == 0:
+            print('There are no people')
+        else:
+            print(*People.__people)
+
+    @staticmethod
+    def people():
+        return People.__people
 
 
-def create_person(name=input(), age=int(input()), orientation=input()):
+def combine():
+    person1 = input("Please enter the name first person")
+    person2 = input("Please enter the name second person")
+    if person1 in People.people() and person2 in People.people():
+        print(1)
+    else:
+        print(0)
+
+
+def create_person(name=input('Enter the name: '),
+                  age=int(input('Enter the age: ')),
+                  orientation=input('Enter the orientation: ')):
     People(name, age, orientation)
 
 
-user = int(input())
-while user == 1:
-    create_person()
-    user = int(input())
+def menu():
+    print("1 - Show people\n2 - Combine people\n3 - Create a person\n0 - Close")
+
+
+print("Hello, let's get started")
+menu()
+user = int(input("Chose a command: "))
+while user in [1, 2, 3, 0]:
+    if user == 1:
+        People.show_people()
+        menu()
+        user = int(input('Chose a command: '))
+    elif user == 2:
+        combine()
+        menu()
+        user = int(input('Chose a command: '))
+    elif user == 3:
+        create_person()
+        menu()
+        user = int(input('Chose a command: '))
+    elif user == 0:
+        break
+    else:
+        NameError ("I'm sorry you entered the wrong data! Try again")
+        menu()
+        user = int(input())
+
+
+
 
 
 
